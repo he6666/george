@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "/usr/local/bin/mcp-server-fetch-proxy-aware",
+      "args": [],
+      "env": {}
+    }
+  }
+}
