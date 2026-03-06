@@ -15,7 +15,7 @@
         "01-intake": { "status": "complete", "file": "01-intake.md", "label": "Intake" },
         "02-strategy": { "status": "complete", "file": "02-strategy.md", "label": "Strategy" },
         "03-research": { "status": "complete", "file": "03-research.md", "label": "Research" },
-        "04-draft": { "status": "not-started", "file": "04-draft.md", "label": "Draft" },
+        "04-draft": { "status": "complete", "file": "04-draft.md", "label": "Draft" },
         "05-polish": { "status": "not-started", "file": "05-polished.md", "label": "Polish" }
       },
       "research": [
