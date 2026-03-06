@@ -130,3 +130,23 @@ Place 2-3 of your best essays in `voice/` as markdown files. The drafting and po
 ```
 
 Each stage is human-in-the-loop. You review and edit before proceeding. The essay is yours — the pipeline provides structure, deep research, and a strong first draft.
+
+## Dashboard & Website
+
+The project includes a web dashboard hosted on GitHub Pages for reviewing essay progress from any computer.
+
+- **Landing page** (`index.html`): Lists all essays with pipeline progress bars
+- **Per-essay viewer** (`essays/<slug>/viewer.html`): Renders each pipeline stage as formatted HTML with sidebar navigation
+- **Manifest** (`george.json`): Registry of all essays, their stage statuses, and research files
+- **Shared styles** (`dashboard.css`): Extracted stylesheet used by both landing page and viewers
+
+### Keeping the dashboard current
+
+**After completing any pipeline stage**, update `george.json` to mark the stage as `"complete"`. Example: after running research on a new essay, change `"03-research"` status from `"not-started"` to `"complete"`.
+
+**When adding a new essay:**
+1. Create `essays/<slug>/` with `00-hunch.md`
+2. Copy `viewer.html` from an existing essay folder (it's generic — reads from manifest)
+3. Add an entry to `george.json` with the essay metadata and all stages set to `"not-started"` except `00-hunch`
+
+**When adding research files**, add them to the essay's `"research"` array in `george.json` so they appear in the viewer sidebar.

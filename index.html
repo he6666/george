@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>George — Research Writer</title>
+<link rel="stylesheet" href="dashboard.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+<nav>
+  <h1>George</h1>
+  <div class="subtitle">The Research Writer</div>
+
+  <div class="section-label">Essays</div>
+  <div id="nav-essays"></div>
+
+  <div class="section-label">Project</div>
+  <a href="#" data-doc="CLAUDE.md">Pipeline Overview</a>
+  <a href="#" data-doc="essays/README.md">Essay Guide</a>
+  <a href="#" data-doc="README.md">About George</a>
+</nav>
+
+<main>
+  <div id="content">
+    <div class="loading">Loading...</div>
+  </div>
+</main>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+const STAGE_ORDER = ['00-hunch','00b-seeds','01-intake','02-strategy','03-research','04-draft','05-polish'];
+
+let manifest = null;
+
+async function loadManifest() {
+  const resp = await fetch('george.json');
+  manifest = await resp.json();
+  renderNavEssays();
+  renderDashboard();
+}
+
+function renderNavEssays() {
+  const container = document.getElementById('nav-essays');
+  container.innerHTML = '';
+  manifest.essays.forEach(essay => {
+    const a = document.createElement('a');
+    a.href = '#';
+    a.textContent = essay.title;
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      setActiveNav(a);
+      renderDashboard();
+    });
+    container.appendChild(a);
+  });
+  // Set first essay as active by default
+  const first = container.querySelector('a');
+  if (first) first.classList.add('active');
+}
+
+function setActiveNav(activeEl) {
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  activeEl.classList.add('active');
+}
+
+function renderDashboard() {
+  const el = document.getElementById('content');
+  let html = '<div class="dashboard-welcome">';
+  html += '<h1>Research Dashboard</h1>';
+  html += '<p>' + manifest.essays.length + ' essay' + (manifest.essays.length !== 1 ? 's' : '') + ' in progress</p>';
+  html += '</div>';
+  html += '<div class="essay-cards">';
+  manifest.essays.forEach(essay => {
+    html += renderEssayCard(essay);
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderEssayCard(essay) {
+  const stages = essay.stages;
+  const keys = STAGE_ORDER.filter(k => stages[k]);
+  const completeCount = keys.filter(k => stages[k].status === 'complete').length;
+  const currentStage = keys.find(k => stages[k].status !== 'complete') || keys[keys.length - 1];
+  const currentLabel = stages[currentStage] ? stages[currentStage].label : 'Complete';
+  const viewerUrl = 'essays/' + essay.slug + '/viewer.html';
+
+  let html = '<div class="essay-card">';
+  html += '<h2><a href="' + viewerUrl + '">' + essay.title + '</a></h2>';
+  html += '<div class="meta">';
+  html += '<span class="target-badge">' + essay.target + '</span> ';
+  html += 'Started ' + essay.started;
+  if (essay.subtitle) html += ' &mdash; ' + essay.subtitle;
+  html += '</div>';
+
+  // Progress bar
+  html += '<div class="progress-bar">';
+  keys.forEach((key, i) => {
+    const stage = stages[key];
+    const isComplete = stage.status === 'complete';
+    const cls = isComplete ? 'complete' : 'pending';
+    const href = isComplete ? viewerUrl + '#' + stage.file : '#';
+    const tag = isComplete ? 'a' : 'span';
+    html += '<' + tag + ' class="progress-node ' + cls + '"' + (isComplete ? ' href="' + href + '"' : '') + '>';
+    html += '<span class="dot">' + key.replace(/^0+/, '').replace('-', '').toUpperCase().slice(0,2) + '</span>';
+    html += '<span class="label">' + stage.label + '</span>';
+    html += '</' + tag + '>';
+    if (i < keys.length - 1) {
+      const nextComplete = stages[keys[i + 1]].status === 'complete';
+      html += '<div class="progress-connector' + (isComplete && nextComplete ? ' complete' : '') + '"></div>';
+    }
+  });
+  html += '</div>';
+
+  html += '<div class="progress-status">Stage ' + completeCount + ' of ' + keys.length + ': Next up &mdash; ' + currentLabel + '</div>';
+  html += '</div>';
+  return html;
+}
+
+async function loadDoc(filename) {
+  const el = document.getElementById('content');
+  el.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const resp = await fetch(filename);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    el.innerHTML = marked.parse(await resp.text());
+    window.scrollTo({ top: 0 });
+  } catch (e) {
+    el.innerHTML = '<div class="loading">Could not load ' + filename + '</div>';
+  }
+}
+
+// Sidebar doc links
+document.querySelectorAll('nav a[data-doc]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    setActiveNav(a);
+    loadDoc(a.dataset.doc);
+  });
+});
+
+// Scroll to top button
+window.addEventListener('scroll', () => {
+  document.querySelector('.scroll-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+loadManifest();
+</script>
+</body>
+</html>

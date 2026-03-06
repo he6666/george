@@ -1,0 +1,31 @@
+{
+  "title": "George, the Research Writer",
+  "description": "Multi-agent research essay co-writer pipeline",
+  "essays": [
+    {
+      "slug": "intelligence-peace",
+      "title": "The Intelligence Peace Thesis",
+      "subtitle": "Locking In Peace In A Post-AGI World",
+      "author": "Liu He",
+      "target": "Foreign Affairs",
+      "started": "2026-02-18",
+      "stages": {
+        "00-hunch": { "status": "complete", "file": "00-hunch.md", "label": "Hunch" },
+        "00b-seeds": { "status": "complete", "file": "00b-seeds.md", "label": "Seeds" },
+        "01-intake": { "status": "complete", "file": "01-intake.md", "label": "Intake" },
+        "02-strategy": { "status": "complete", "file": "02-strategy.md", "label": "Strategy" },
+        "03-research": { "status": "complete", "file": "03-research.md", "label": "Research" },
+        "04-draft": { "status": "not-started", "file": "04-draft.md", "label": "Draft" },
+        "05-polish": { "status": "not-started", "file": "05-polished.md", "label": "Polish" }
+      },
+      "research": [
+        { "title": "Game-Theoretic Argument", "file": ".research/game-theory-core.md" },
+        { "title": "Copeland & Commercial Peace", "file": ".research/copeland-commercial-peace.md" },
+        { "title": "Farrell & Newman", "file": ".research/farrell-newman-deep-read.md" },
+        { "title": "Silicon Shield & Semiconductors", "file": ".research/silicon-shield-semiconductor.md" },
+        { "title": "AI Integration & AGI", "file": ".research/axiom1-ai-integration.md" },
+        { "title": "Session Notes", "file": ".research/session-notes.md" }
+      ]
+    }
+  ]
+}
