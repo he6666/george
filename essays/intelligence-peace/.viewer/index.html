@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPT Research Viewer</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --sidebar-bg: #1a1a2e;
+    --sidebar-text: #e0e0e0;
+    --sidebar-active: #e94560;
+    --text: #2d2d2d;
+    --heading: #1a1a2e;
+    --link: #0a7e8c;
+    --border: #e0ddd5;
+    --quote-bg: #f0ede6;
+    --code-bg: #f5f2eb;
+    --table-header: #1a1a2e;
+    --table-stripe: #f8f7f4;
+    --strong-tag: #e94560;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+  }
+  /* Sidebar */
+  nav {
+    width: 280px;
+    min-width: 280px;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 24px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  nav h1 {
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 0 24px 8px;
+    color: #fff;
+  }
+  nav .subtitle {
+    font-size: 11px;
+    color: #888;
+    padding: 0 24px 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  nav .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #666;
+    padding: 16px 24px 8px;
+  }
+  nav a {
+    display: block;
+    padding: 10px 24px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  nav a:hover {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+  }
+  nav a.active {
+    background: rgba(233,69,96,0.1);
+    color: var(--sidebar-active);
+    border-left-color: var(--sidebar-active);
+    font-weight: 600;
+  }
+  nav .stage-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    background: rgba(255,255,255,0.1);
+    color: #aaa;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-right: 6px;
+    font-family: monospace;
+  }
+  nav a.active .stage-badge {
+    background: rgba(233,69,96,0.2);
+    color: var(--sidebar-active);
+  }
+  /* Main content */
+  main {
+    margin-left: 280px;
+    flex: 1;
+    padding: 48px 64px 96px;
+    max-width: 900px;
+  }
+  /* Markdown rendered content */
+  #content h1 {
+    font-size: 32px;
+    color: var(--heading);
+    margin: 0 0 8px;
+    line-height: 1.2;
+  }
+  #content h1:first-child {
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--sidebar-active);
+    margin-bottom: 24px;
+  }
+  #content h2 {
+    font-size: 22px;
+    color: var(--heading);
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  #content h3 {
+    font-size: 17px;
+    color: var(--heading);
+    margin: 32px 0 12px;
+  }
+  #content h4 {
+    font-size: 15px;
+    color: #555;
+    margin: 24px 0 8px;
+    font-style: italic;
+  }
+  #content p {
+    font-size: 15px;
+    line-height: 1.75;
+    margin: 0 0 16px;
+  }
+  #content ul, #content ol {
+    margin: 0 0 16px 24px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  #content li { margin-bottom: 6px; }
+  #content li ul, #content li ol { margin-top: 6px; margin-bottom: 6px; }
+  #content strong {
+    color: var(--heading);
+    font-weight: 700;
+  }
+  #content em { font-style: italic; }
+  #content a {
+    color: var(--link);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(10,126,140,0.3);
+  }
+  #content a:hover {
+    border-bottom-color: var(--link);
+  }
+  #content blockquote {
+    background: var(--quote-bg);
+    border-left: 4px solid var(--sidebar-active);
+    padding: 16px 20px;
+    margin: 16px 0 24px;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  #content blockquote p { margin-bottom: 8px; }
+  #content blockquote p:last-child { margin-bottom: 0; }
+  #content code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  #content pre {
+    background: var(--code-bg);
+    padding: 16px 20px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 16px 0 24px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  #content pre code {
+    background: none;
+    padding: 0;
+  }
+  #content hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+  /* Tables */
+  #content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  #content thead th {
+    background: var(--table-header);
+    color: #fff;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  #content tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  #content tbody tr:nth-child(even) {
+    background: var(--table-stripe);
+  }
+  /* Rating badges */
+  #content strong:has(+ br) { display: inline; }
+  /* Scroll to top */
+  .scroll-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background: var(--sidebar-bg);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+  .scroll-top.visible { display: flex; }
+  /* Loading */
+  .loading {
+    text-align: center;
+    padding: 64px;
+    color: #999;
+    font-style: italic;
+  }
+  /* Print */
+  @media print {
+    nav { display: none; }
+    main { margin-left: 0; padding: 24px; }
+  }
+</style>
+</head>
+<body>
+<nav>
+  <h1>Intelligence Peace</h1>
+  <div class="subtitle">Research Viewer</div>
+
+  <div class="section-label">Essay Pipeline</div>
+  <a href="#" data-file="00-hunch.md"><span class="stage-badge">00</span>Hunch</a>
+  <a href="#" data-file="00b-seeds.md"><span class="stage-badge">00b</span>Seeds</a>
+  <a href="#" data-file="01-intake.md"><span class="stage-badge">01</span>Intake Brief</a>
+  <a href="#" data-file="02-strategy.md"><span class="stage-badge">02</span>Strategy</a>
+  <a href="#" data-file="03-research.md" class="active"><span class="stage-badge">03</span>Research Synthesis</a>
+
+  <div class="section-label">Research Briefs</div>
+  <a href="#" data-file=".research/copeland-commercial-peace.md">Copeland & Commercial Peace</a>
+  <a href="#" data-file=".research/farrell-newman-deep-read.md">Farrell & Newman</a>
+  <a href="#" data-file=".research/silicon-shield-semiconductor.md">Silicon Shield & Semiconductors</a>
+  <a href="#" data-file=".research/axiom1-ai-integration.md">AI Integration & AGI</a>
+  <a href="#" data-file=".research/session-notes.md">Session Notes</a>
+</nav>
+
+<main>
+  <div id="content"><div class="loading">Loading...</div></div>
+</main>
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<script>
+const BASE = '../';
+let currentFile = '03-research.md';
+
+async function loadFile(filename) {
+  const el = document.getElementById('content');
+  el.innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    const resp = await fetch(BASE + filename);
+    if (!resp.ok) throw new Error('File not found');
+    const md = await resp.text();
+    el.innerHTML = marked.parse(md);
+    window.scrollTo({ top: 0 });
+    currentFile = filename;
+    document.querySelectorAll('nav a[data-file]').forEach(a => {
+      a.classList.toggle('active', a.dataset.file === filename);
+    });
+    history.replaceState(null, '', '#' + filename);
+  } catch (e) {
+    el.innerHTML = '<div class="loading">Could not load ' + filename + '</div>';
+  }
+}
+
+document.querySelectorAll('nav a[data-file]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    loadFile(a.dataset.file);
+  });
+});
+
+window.addEventListener('scroll', () => {
+  document.querySelector('.scroll-top').classList.toggle('visible', window.scrollY > 400);
+});
+
+// Load from hash or default
+const hash = location.hash.slice(1);
+loadFile(hash || '03-research.md');
+</script>
+</body>
+</html>
