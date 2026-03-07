@@ -19,19 +19,19 @@
         "05-polish": { "status": "not-started", "file": "05-polished.md", "label": "Polish" }
       },
       "research": [
+        { "title": "Ch.1: AI Substrate", "file": ".research/ch1-ai-substrate.md" },
+        { "title": "Ch.2: Why the Chain Holds", "file": ".research/why-the-chain-holds.md" },
+        { "title": "Ch.4: Peace Theories", "file": ".research/ch4-peace-theories.md" },
+        { "title": "Ch.5: Chokepoints & Restraint", "file": ".research/ch5-chokepoints.md" },
+        { "title": "Ch.6: Failure Conditions", "file": ".research/ch6-failure-conditions.md" },
+        { "title": "Ch.7: Democratic Supply Chain", "file": ".research/ch7-democratic-chain.md" },
+        { "title": "Ch.8: AI NATO", "file": ".research/ch8-ai-nato.md" },
         { "title": "Game-Theoretic Argument", "file": ".research/game-theory-core.md" },
         { "title": "Copeland & Commercial Peace", "file": ".research/copeland-commercial-peace.md" },
         { "title": "Farrell & Newman", "file": ".research/farrell-newman-deep-read.md" },
         { "title": "Silicon Shield & Semiconductors", "file": ".research/silicon-shield-semiconductor.md" },
         { "title": "AI Integration & AGI", "file": ".research/axiom1-ai-integration.md" },
-        { "title": "Session Notes", "file": ".research/session-notes.md" },
-        { "title": "Why the Chain Holds (Ch.2 Research)", "file": ".research/why-the-chain-holds.md" },
-        { "title": "Ch.1: AI Substrate", "file": ".research/ch1-ai-substrate.md" },
-        { "title": "Ch.4: Peace Theories", "file": ".research/ch4-peace-theories.md" },
-        { "title": "Ch.5: Chokepoints & Restraint", "file": ".research/ch5-chokepoints.md" },
-        { "title": "Ch.6: Failure Conditions", "file": ".research/ch6-failure-conditions.md" },
-        { "title": "Ch.7: Democratic Supply Chain", "file": ".research/ch7-democratic-chain.md" },
-        { "title": "Ch.8: AI NATO", "file": ".research/ch8-ai-nato.md" }
+        { "title": "Session Notes", "file": ".research/session-notes.md" }
       ]
     }
   ]
