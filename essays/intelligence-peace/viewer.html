@@ -17,6 +17,9 @@
   <div class="section-label">Essay Pipeline</div>
   <div id="nav-stages"></div>
 
+  <div class="section-label" id="chapters-label" style="display:none">Chapter Drafts</div>
+  <div id="nav-chapters"></div>
+
   <div class="section-label" id="research-label" style="display:none">Research Briefs</div>
   <div id="nav-research"></div>
 </nav>
@@ -99,6 +102,24 @@ function buildSidebar(essay) {
     });
     stagesEl.appendChild(a);
   });
+
+  // Chapter draft links
+  if (essay.chapters && essay.chapters.length > 0) {
+    document.getElementById('chapters-label').style.display = '';
+    const chaptersEl = document.getElementById('nav-chapters');
+    chaptersEl.innerHTML = '';
+    essay.chapters.forEach(ch => {
+      const a = document.createElement('a');
+      a.href = '#';
+      a.dataset.file = ch.file;
+      a.textContent = ch.title;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        loadFile(ch.file);
+      });
+      chaptersEl.appendChild(a);
+    });
+  }
 
   // Research links
   if (essay.research && essay.research.length > 0) {

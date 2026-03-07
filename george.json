@@ -18,6 +18,9 @@
         "04-draft": { "status": "complete", "file": "04-draft.md", "label": "Draft" },
         "05-polish": { "status": "not-started", "file": "05-polished.md", "label": "Polish" }
       },
+      "chapters": [
+        { "title": "Ch.1: The AI Substrate", "file": "chapters/ch1-the-ai-substrate.md" }
+      ],
       "research": [
         { "title": "Ch.1: AI Substrate", "file": ".research/ch1-ai-substrate.md" },
         { "title": "Ch.2: Why the Chain Holds", "file": ".research/why-the-chain-holds.md" },
