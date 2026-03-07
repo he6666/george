@@ -20,7 +20,8 @@
       },
       "chapters": [
         { "title": "Ch.1: The AI Substrate", "file": "chapters/ch1-the-ai-substrate.md" },
-        { "title": "Ch.2: Why the Chain Holds", "file": "chapters/ch2-why-the-chain-holds.md" }
+        { "title": "Ch.2: Why the Chain Holds", "file": "chapters/ch2-why-the-chain-holds.md" },
+        { "title": "Ch.3: The Intelligence Peace Thesis", "file": "chapters/ch3-the-intelligence-peace-thesis.md" }
       ],
       "research": [
         { "title": "Ch.1: AI Substrate", "file": ".research/ch1-ai-substrate.md" },
