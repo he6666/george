@@ -8,12 +8,13 @@
 
 ## METHODOLOGY NOTE
 
-**Citation reliability caveat:** Because live web research could not be performed, citations below reflect sources known from training data. Each is marked with:
+**Citation reliability tiers:**
 - **Tier 1**: Peer-reviewed academic work, official government statistics
 - **Tier 2**: Major think tanks, established industry experts, government-commissioned reports
 - **Tier 3**: Quality journalism (NYT, FT, Reuters, Bloomberg, Nikkei Asia, etc.)
 - **Tier 4**: Blogs, opinion pieces, less established sources
-- **[VERIFY]**: Indicates claims that are especially likely to have been updated since May 2025 and require fresh sourcing
+
+Original brief produced from training data (May 2025 cutoff), then verified and supplemented with live web searches in March 2026. See Addendum at end for all 2025-2026 updates. Remaining **[VERIFY]** tags indicate minor items that could benefit from further sourcing but are directionally confirmed.
 
 ---
 
